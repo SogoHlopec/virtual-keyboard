@@ -7,7 +7,6 @@ module.exports = {
   devtool,
   entry: {
     index: path.resolve(__dirname, "src", "index.js"),
-    ["pets"]: path.resolve(__dirname, "src", "pages", "pets", "index.js"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -29,11 +28,7 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "sass-loader",
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/i,
@@ -63,11 +58,6 @@ module.exports = {
       template: path.resolve(__dirname, "src", "index.html"),
       filename: "index.html",
       chunks: ["index"],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src", "pages", "pets", "index.html"),
-      filename: "pets.html",
-      chunks: ["pets"],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",

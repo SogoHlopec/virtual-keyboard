@@ -17,6 +17,12 @@
     margin-left: 6px;
     text-align: center;
     line-height: 40px;
+    transition: all 0.3s linear;
+  }
+
+  .keyboard__key_active {
+    background-color: rgb(6 236 29);
+    border-radius: 50px;
   }
 
   .Backspace,

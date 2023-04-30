@@ -1,5 +1,6 @@
 import { createElement } from "./createElement";
 import { createKeyboard } from "./createKeyboard";
+import * as data from "./data";
 
 class App {
   constructor(body) {
@@ -32,11 +33,15 @@ class App {
 
     const textSwitchLanguage = createElement("p", "text");
     textSwitchLanguage.textContent =
-      "To switch the language combination: left Ctrl + left Alt.";
+      "To switch the language combination: Ctrl + Alt.";
 
     main.append(textSwitchLanguage);
 
-    createKeyboard(keyboard);
+    createKeyboard(
+      keyboard,
+      data.codes,
+      localStorage.getItem("language") === "En" ? data.keysEn : data.keysRu
+    );
     console.log("render!");
   }
 }

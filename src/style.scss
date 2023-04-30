@@ -1,5 +1,44 @@
 .keyboard {
-  width: 700px;
-  height: 250px;
+  width: 715px;
+  height: 251px;
+  padding: 5px;
+  border: 3px solid #000;
+  border-radius: 5px;
   background-color: rgb(94, 146, 99);
+  display: flex;
+  flex-wrap: wrap;
+
+  .keyboard__key {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(129, 199, 136);
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 6px;
+    text-align: center;
+    line-height: 40px;
+  }
+
+  .Backspace,
+  .CapsLock,
+  .ShiftLeft {
+    width: 100px;
+  }
+
+  .Tab {
+    width: 50px;
+  }
+
+  .Delete {
+    width: 44px;
+  }
+
+  .Enter,
+  .ShiftRight {
+    width: 86px;
+  }
+
+  .Space {
+    width: 330px;
+  }
 }

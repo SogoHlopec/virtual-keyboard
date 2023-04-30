@@ -1,5 +1,5 @@
-import { create } from "lodash";
 import { createElement } from "./createElement";
+import { createKeyboard } from "./createKeyboard";
 
 class App {
   constructor(body) {
@@ -36,6 +36,7 @@ class App {
 
     main.append(textSwitchLanguage);
 
+    createKeyboard(keyboard);
     console.log("render!");
   }
 }

@@ -44,14 +44,42 @@ const events = () => {
       }
       if (event.code === "CapsLock" && capsLockActive) {
         capsLockActive = false;
+        keyboard.querySelectorAll(".keyboard__key").forEach((element) => {
+          if (
+            (localStorage.getItem("language") === "En"
+              ? data.capsKeysEn
+              : data.capsKeysRu
+            ).includes(element.textContent.toUpperCase())
+          ) {
+            element.textContent = element.textContent.toLowerCase();
+          }
+        });
       } else if (event.code === "CapsLock") {
         capsLockActive = true;
+        keyboard.querySelectorAll(".keyboard__key").forEach((element) => {
+          if (
+            (localStorage.getItem("language") === "En"
+              ? data.capsKeysEn
+              : data.capsKeysRu
+            ).includes(element.textContent.toUpperCase())
+          ) {
+            element.textContent = element.textContent.toUpperCase();
+          }
+        });
       }
       keyboard
         .querySelector(`.${event.code}`)
         .classList.add("keyboard__key_active");
 
       if (
+        !data.notSymbols.includes(event.code) &&
+        document.activeElement !== textarea &&
+        capsLockActive
+      ) {
+        textarea.value += keyboard
+          .querySelector(`.${event.code}`)
+          .textContent.toUpperCase();
+      } else if (
         !data.notSymbols.includes(event.code) &&
         document.activeElement !== textarea
       ) {
@@ -77,10 +105,19 @@ const events = () => {
   document.addEventListener("keyup", (event) => {
     try {
       pressedKeys.delete(event.code);
-      if (capsLockActive) return;
-      keyboard
-        .querySelector(`.${event.code}`)
-        .classList.remove("keyboard__key_active");
+      if (capsLockActive && event.code !== "CapsLock") {
+        keyboard
+          .querySelector(`.${event.code}`)
+          .classList.remove("keyboard__key_active");
+      } else if (event.code === "CapsLock" && !capsLockActive) {
+        keyboard
+          .querySelector(`.${event.code}`)
+          .classList.remove("keyboard__key_active");
+      } else if (event.code !== "CapsLock") {
+        keyboard
+          .querySelector(`.${event.code}`)
+          .classList.remove("keyboard__key_active");
+      }
     } catch (error) {
       return;
     }

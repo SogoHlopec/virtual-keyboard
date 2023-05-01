@@ -1,11 +1,12 @@
 import * as data from "./data";
 import { createKeyboard } from "./createKeyboard";
 let capsLockActive = false;
+let shiftActive = false;
 
 const events = () => {
   const keyboard = document.querySelector(".keyboard");
   const textarea = document.querySelector(".textarea");
-  const arr = [];
+  // const arr = [];
   const pressedKeys = new Set();
 
   const changeLanguage = () => {
@@ -28,12 +29,64 @@ const events = () => {
     }
   };
 
+  const capsOff = () => {
+    keyboard.querySelectorAll(".keyboard__key").forEach((element) => {
+      if (
+        (localStorage.getItem("language") === "En"
+          ? data.capsKeysEn
+          : data.capsKeysRu
+        ).includes(element.textContent.toUpperCase())
+      ) {
+        element.textContent = element.textContent.toLowerCase();
+      }
+    });
+  };
+
+  const capsOn = () => {
+    keyboard.querySelectorAll(".keyboard__key").forEach((element) => {
+      if (
+        (localStorage.getItem("language") === "En"
+          ? data.capsKeysEn
+          : data.capsKeysRu
+        ).includes(element.textContent.toUpperCase())
+      ) {
+        element.textContent = element.textContent.toUpperCase();
+      }
+    });
+  };
+
+  const changeTextarea = (event) => {
+    if (
+      !data.notSymbols.includes(event.code) &&
+      document.activeElement !== textarea &&
+      capsLockActive
+    ) {
+      textarea.value += keyboard
+        .querySelector(`.${event.code}`)
+        .textContent.toUpperCase();
+    } else if (
+      !data.notSymbols.includes(event.code) &&
+      document.activeElement !== textarea
+    ) {
+      textarea.value += keyboard.querySelector(`.${event.code}`).textContent;
+    } else if (
+      event.code === "Backspace" &&
+      document.activeElement !== textarea
+    ) {
+      textarea.value = textarea.value.slice(0, textarea.value.length - 1);
+    } else if (event.code === "Tab") {
+      textarea.value += "    ";
+    } else if (event.code === "Enter" && document.activeElement !== textarea) {
+      textarea.value += "\n";
+    }
+  };
+
   document.addEventListener("keydown", (event) => {
     try {
       // arr.push(event.key);
       // console.log(arr);
+
       pressedKeys.add(event.code);
-      console.log(event.code);
 
       if (pressedKeys.has("AltLeft") && pressedKeys.has("ControlLeft")) {
         changeLanguage();
@@ -44,59 +97,28 @@ const events = () => {
       }
       if (event.code === "CapsLock" && capsLockActive) {
         capsLockActive = false;
-        keyboard.querySelectorAll(".keyboard__key").forEach((element) => {
-          if (
-            (localStorage.getItem("language") === "En"
-              ? data.capsKeysEn
-              : data.capsKeysRu
-            ).includes(element.textContent.toUpperCase())
-          ) {
-            element.textContent = element.textContent.toLowerCase();
-          }
-        });
+        capsOff();
       } else if (event.code === "CapsLock") {
         capsLockActive = true;
-        keyboard.querySelectorAll(".keyboard__key").forEach((element) => {
-          if (
-            (localStorage.getItem("language") === "En"
-              ? data.capsKeysEn
-              : data.capsKeysRu
-            ).includes(element.textContent.toUpperCase())
-          ) {
-            element.textContent = element.textContent.toUpperCase();
-          }
-        });
+        capsOn();
       }
+      if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+        shiftActive = true;
+        keyboard.innerHTML = "";
+        createKeyboard(
+          keyboard,
+          data.codes,
+          localStorage.getItem("language") === "En"
+            ? data.shiftKeysEn
+            : data.shiftKeysRu
+        );
+      }
+
+      changeTextarea(event);
+
       keyboard
         .querySelector(`.${event.code}`)
         .classList.add("keyboard__key_active");
-
-      if (
-        !data.notSymbols.includes(event.code) &&
-        document.activeElement !== textarea &&
-        capsLockActive
-      ) {
-        textarea.value += keyboard
-          .querySelector(`.${event.code}`)
-          .textContent.toUpperCase();
-      } else if (
-        !data.notSymbols.includes(event.code) &&
-        document.activeElement !== textarea
-      ) {
-        textarea.value += keyboard.querySelector(`.${event.code}`).textContent;
-      } else if (
-        event.code === "Backspace" &&
-        document.activeElement !== textarea
-      ) {
-        textarea.value = textarea.value.slice(0, textarea.value.length - 1);
-      } else if (event.code === "Tab") {
-        textarea.value += "    ";
-      } else if (
-        event.code === "Enter" &&
-        document.activeElement !== textarea
-      ) {
-        textarea.value += "\n";
-      }
     } catch (error) {
       return;
     }
@@ -117,6 +139,15 @@ const events = () => {
         keyboard
           .querySelector(`.${event.code}`)
           .classList.remove("keyboard__key_active");
+      }
+      if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+        shiftActive = false;
+        keyboard.innerHTML = "";
+        createKeyboard(
+          keyboard,
+          data.codes,
+          localStorage.getItem("language") === "En" ? data.keysEn : data.keysRu
+        );
       }
     } catch (error) {
       return;
@@ -141,6 +172,44 @@ const events = () => {
           capsLockActive = true;
           event.target.classList.add("keyboard__key_active");
         }
+      }
+    }
+  });
+
+  keyboard.addEventListener("mousedown", (event) => {
+    if (event.target.classList.contains("keyboard__key")) {
+      if (
+        event.target.classList.contains("ShiftLeft") ||
+        event.target.classList.contains("ShiftRight")
+      ) {
+        shiftActive = true;
+        event.target.classList.add("keyboard__key_active");
+        keyboard.innerHTML = "";
+        createKeyboard(
+          keyboard,
+          data.codes,
+          localStorage.getItem("language") === "En"
+            ? data.shiftKeysEn
+            : data.shiftKeysRu
+        );
+      }
+    }
+  });
+
+  keyboard.addEventListener("mouseup", (event) => {
+    if (event.target.classList.contains("keyboard__key")) {
+      if (
+        event.target.classList.contains("ShiftLeft") ||
+        event.target.classList.contains("ShiftRight")
+      ) {
+        shiftActive = false;
+        event.target.classList.remove("keyboard__key_active");
+        keyboard.innerHTML = "";
+        createKeyboard(
+          keyboard,
+          data.codes,
+          localStorage.getItem("language") === "En" ? data.keysEn : data.keysRu
+        );
       }
     }
   });

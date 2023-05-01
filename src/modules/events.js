@@ -1,13 +1,11 @@
 import * as data from "./data";
 import { createKeyboard } from "./createKeyboard";
-import { ElementType } from "htmlparser2";
 let capsLockActive = false;
 let shiftActive = false;
 
 const events = () => {
   const keyboard = document.querySelector(".keyboard");
   const textarea = document.querySelector(".textarea");
-  // const arr = [];
   const pressedKeys = new Set();
   const arrows = ["ArrowUp", "ArrowLeft", "ArrowRight", "ArrowDown"];
 
@@ -85,9 +83,6 @@ const events = () => {
 
   document.addEventListener("keydown", (event) => {
     try {
-      // arr.push(event.key);
-      // console.log(arr);
-
       pressedKeys.add(event.code);
 
       if (pressedKeys.has("AltLeft") && pressedKeys.has("ControlLeft")) {

@@ -42,7 +42,6 @@ class App {
       data.codes,
       localStorage.getItem("language") === "En" ? data.keysEn : data.keysRu
     );
-    console.log("render!");
   }
 }
 

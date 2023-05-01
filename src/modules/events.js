@@ -9,6 +9,7 @@ const events = () => {
   const textarea = document.querySelector(".textarea");
   // const arr = [];
   const pressedKeys = new Set();
+  const arrows = ["ArrowUp", "ArrowLeft", "ArrowRight", "ArrowDown"];
 
   const changeLanguage = () => {
     if (localStorage.getItem("language") === "En") {
@@ -62,7 +63,7 @@ const events = () => {
       document.activeElement !== textarea &&
       capsLockActive
     ) {
-      textarea.value += keyboard
+      textarea.value += document
         .querySelector(`.${event.code}`)
         .textContent.toUpperCase();
     } else if (
@@ -96,13 +97,14 @@ const events = () => {
       if (event.code === "Tab" || event.key === "Alt") {
         event.preventDefault();
       }
-      if (event.code === "CapsLock" && capsLockActive) {
-        capsLockActive = false;
-        capsOff();
-      } else if (event.code === "CapsLock") {
-        capsLockActive = true;
-        capsOn();
-      }
+      if (event.code)
+        if (event.code === "CapsLock" && capsLockActive) {
+          capsLockActive = false;
+          capsOff();
+        } else if (event.code === "CapsLock") {
+          capsLockActive = true;
+          capsOn();
+        }
       if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
         const activeKeys = Array.from(
           keyboard.querySelectorAll(".keyboard__key")
@@ -291,6 +293,15 @@ const events = () => {
           }
         }
       }
+    }
+  });
+
+  textarea.addEventListener("keydown", (event) => {
+    if (arrows.includes(event.code)) {
+      textarea.value += document
+        .querySelector(`.${event.code}`)
+        .textContent.toUpperCase();
+      event.preventDefault();
     }
   });
 };

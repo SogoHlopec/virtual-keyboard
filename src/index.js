@@ -5,6 +5,7 @@ import { App } from "./modules/app";
 import { events } from "./modules/events";
 
 const body = document.querySelector("body");
+body.classList.add("body");
 if (!localStorage.getItem("language")) localStorage.setItem("language", "En");
 const app = new App(body);
 

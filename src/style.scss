@@ -1,40 +1,60 @@
+$color-background: rgb(94, 146, 99);
+$color-key-auxiliary: rgb(255, 255, 255);
+$color-key: rgb(137 194 143);
+$color-key-hover: rgb(145, 224, 153);
+$color-key-active: rgb(6 236 29);
+
+.body,
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textarea {
+  border: 10px solid $color-background;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
 .keyboard {
   width: 715px;
   height: 251px;
   padding: 5px;
   border: 3px solid #000;
   border-radius: 5px;
-  background-color: rgb(94, 146, 99);
+  background-color: $color-background;
   display: flex;
   flex-wrap: wrap;
 
   .keyboard__key {
     width: 40px;
     height: 40px;
-    background-color: rgb(129, 199, 136);
+    background-color: $color-key;
     border-radius: 3px;
     cursor: pointer;
     margin-left: 6px;
     text-align: center;
     line-height: 40px;
+    font-size: 1.2rem;
     transition: all 0.3s linear;
 
     &:hover {
-      background-color: rgb(145, 224, 153);
+      background-color: $color-key-hover;
     }
 
     &:active {
-      background-color: rgb(6 236 29);
+      background-color: $color-key-active;
       border-radius: 50px;
     }
   }
 
   .keyboard__key_active {
-    background-color: rgb(6 236 29);
+    background-color: $color-key-active;
     border-radius: 50px;
 
     &:hover {
-      background-color: rgb(6 236 29);
+      background-color: $color-key-active;
     }
   }
 
@@ -60,4 +80,31 @@
   .Space {
     width: 330px;
   }
+}
+
+.Backspace,
+.Tab,
+.Delete,
+.CapsLock,
+.Enter,
+.ShiftLeft,
+.ShiftRight,
+.ControlLeft,
+.MetaLeft,
+.AltLeft,
+.Space,
+.AltRight,
+.AltRight,
+.ArrowLeft,
+.ArrowDown,
+.ArrowRight,
+.ControlRight,
+.ArrowUp {
+  font-weight: 600;
+}
+
+.text {
+  margin: 0;
+  margin-top: 15px;
+  font-size: 1.2rem;
 }

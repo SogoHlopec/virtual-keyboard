@@ -197,4 +197,24 @@ const codes = [
   "ControlRight",
 ];
 
-export { keysEn, keysRu, codes };
+const notSymbols = [
+  "Backspace",
+  "Tab",
+  "Delete",
+  "Del",
+  "CapsLock",
+  "Enter",
+  "ShiftLeft",
+  "ShiftRight",
+  "Shift",
+  "ControlLeft",
+  "Ctrl",
+  "MetaLeft",
+  "Win",
+  "AltLeft",
+  "AltRight",
+  "Alt",
+  "ControlRight",
+];
+
+export { keysEn, keysRu, codes, notSymbols };

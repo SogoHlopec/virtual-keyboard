@@ -33,7 +33,7 @@ class App {
 
     const textSwitchLanguage = createElement("p", "text");
     textSwitchLanguage.textContent =
-      "To switch the language combination: Ctrl + Alt.";
+      "To switch the language combination: left Ctrl + left Alt.";
 
     main.append(textSwitchLanguage);
 

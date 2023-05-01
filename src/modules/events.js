@@ -1,5 +1,6 @@
 import * as data from "./data";
 import { createKeyboard } from "./createKeyboard";
+import { ElementType } from "htmlparser2";
 let capsLockActive = false;
 let shiftActive = false;
 
@@ -103,6 +104,18 @@ const events = () => {
         capsOn();
       }
       if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+        const activeKeys = Array.from(
+          keyboard.querySelectorAll(".keyboard__key")
+        )
+          .map((element, index) => {
+            if (
+              element.classList.contains("keyboard__key_active") &&
+              element.textContent !== "Shift"
+            ) {
+              return index;
+            }
+          })
+          .filter((element) => element);
         shiftActive = true;
         keyboard.innerHTML = "";
         createKeyboard(
@@ -112,6 +125,12 @@ const events = () => {
             ? data.shiftKeysEn
             : data.shiftKeysRu
         );
+        const currentElements = keyboard.querySelectorAll(".keyboard__key");
+        for (let i = 0; i < currentElements.length; i++) {
+          if (activeKeys.includes(i)) {
+            currentElements[i].classList.add("keyboard__key_active");
+          }
+        }
       }
 
       changeTextarea(event);
@@ -141,6 +160,18 @@ const events = () => {
           .classList.remove("keyboard__key_active");
       }
       if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+        const activeKeys = Array.from(
+          keyboard.querySelectorAll(".keyboard__key")
+        )
+          .map((element, index) => {
+            if (
+              element.classList.contains("keyboard__key_active") &&
+              element.textContent !== "Shift"
+            ) {
+              return index;
+            }
+          })
+          .filter((element) => element);
         shiftActive = false;
         keyboard.innerHTML = "";
         createKeyboard(
@@ -148,6 +179,12 @@ const events = () => {
           data.codes,
           localStorage.getItem("language") === "En" ? data.keysEn : data.keysRu
         );
+        const currentElements = keyboard.querySelectorAll(".keyboard__key");
+        for (let i = 0; i < currentElements.length; i++) {
+          if (activeKeys.includes(i)) {
+            currentElements[i].classList.add("keyboard__key_active");
+          }
+        }
       }
     } catch (error) {
       return;
@@ -182,8 +219,23 @@ const events = () => {
         event.target.classList.contains("ShiftLeft") ||
         event.target.classList.contains("ShiftRight")
       ) {
+        let selector;
+        event.target.classList.contains("ShiftLeft")
+          ? (selector = "ShiftLeft")
+          : (selector = "ShiftRight");
+        const activeKeys = Array.from(
+          keyboard.querySelectorAll(".keyboard__key")
+        )
+          .map((element, index) => {
+            if (
+              element.classList.contains("keyboard__key_active") &&
+              element.textContent !== "Shift"
+            ) {
+              return index;
+            }
+          })
+          .filter((element) => element);
         shiftActive = true;
-        event.target.classList.add("keyboard__key_active");
         keyboard.innerHTML = "";
         createKeyboard(
           keyboard,
@@ -192,6 +244,16 @@ const events = () => {
             ? data.shiftKeysEn
             : data.shiftKeysRu
         );
+        keyboard
+          .querySelector(`.${selector}`)
+          .classList.add("keyboard__key_active");
+
+        const currentElements = keyboard.querySelectorAll(".keyboard__key");
+        for (let i = 0; i < currentElements.length; i++) {
+          if (activeKeys.includes(i)) {
+            currentElements[i].classList.add("keyboard__key_active");
+          }
+        }
       }
     }
   });
@@ -202,6 +264,18 @@ const events = () => {
         event.target.classList.contains("ShiftLeft") ||
         event.target.classList.contains("ShiftRight")
       ) {
+        const activeKeys = Array.from(
+          keyboard.querySelectorAll(".keyboard__key")
+        )
+          .map((element, index) => {
+            if (
+              element.classList.contains("keyboard__key_active") &&
+              element.textContent !== "Shift"
+            ) {
+              return index;
+            }
+          })
+          .filter((element) => element);
         shiftActive = false;
         event.target.classList.remove("keyboard__key_active");
         keyboard.innerHTML = "";
@@ -210,6 +284,12 @@ const events = () => {
           data.codes,
           localStorage.getItem("language") === "En" ? data.keysEn : data.keysRu
         );
+        const currentElements = keyboard.querySelectorAll(".keyboard__key");
+        for (let i = 0; i < currentElements.length; i++) {
+          if (activeKeys.includes(i)) {
+            currentElements[i].classList.add("keyboard__key_active");
+          }
+        }
       }
     }
   });

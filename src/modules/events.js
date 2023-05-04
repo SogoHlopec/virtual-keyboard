@@ -198,6 +198,13 @@ const events = () => {
         textarea.value += "    ";
       } else if (event.target.textContent === "Enter") {
         textarea.value += "\n";
+      } else if (event.target.textContent === "Del") {
+        const cursor = textarea.selectionStart;
+        const arrValue = textarea.value.split("");
+        arrValue.splice(cursor, 1);
+        textarea.value = arrValue.join("");
+        textarea.selectionStart = cursor;
+        textarea.selectionEnd = textarea.selectionStart;
       } else if (event.target.textContent === "CapsLock") {
         if (capsLockActive) {
           capsLockActive = false;
@@ -288,15 +295,6 @@ const events = () => {
           }
         }
       }
-    }
-  });
-
-  textarea.addEventListener("keydown", (event) => {
-    if (arrows.includes(event.code)) {
-      textarea.value += document
-        .querySelector(`.${event.code}`)
-        .textContent.toUpperCase();
-      event.preventDefault();
     }
   });
 };

@@ -1,2 +1,19 @@
-# virtual-keyboard
-This project is analogous to the virtual keyboard.
+# Virtual keyboard
+Virtual keyboard on the web. This project was created while studying at RS SHOOL https://rs.school/index.html Stage 1 2023Q1.
+
+## Task:
+* https://github.com/rolling-scopes-school/tasks/blob/master/tasks/virtual-keyboard/virtual-keyboard-en.md
+
+## Deploy:
+* https://sogohlopec.github.io/virtual-keyboard/
+
+## Stack:
+* HTML
+* SCSS
+* JS
+* Webpack
+
+## Features:
+* CSS animation
+* DOM/Event
+* JS modules

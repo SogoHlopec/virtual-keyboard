@@ -17,3 +17,6 @@ Virtual keyboard on the web. This project was created while studying at RS SHOOL
 * CSS animation
 * DOM/Event
 * JS modules
+
+## Desktop
+![desktop](https://github.com/SogoHlopec/virtual-keyboard/blob/main/desktop.jpg)
